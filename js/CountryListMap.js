@@ -13421,6 +13421,7 @@ L.CountrySelect = L.Control.extend({
   },
   _onChange: function (e) {
     var selectedCountry = this.select.options[this.select.selectedIndex].value;
+    consol.log("hihi");
     e.feature = this.options.countries[selectedCountry];
     this.onChange(e);
   },
