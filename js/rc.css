@@ -21,13 +21,13 @@ body {
 
 @media screen and (orientation: portrait) {
   body {
-    background-image: url("/static/theme-rc/background.jpeg") !important;
+    background-image: url("https://cdn.jsdelivr.net/gh/sakura-net/IMG@0.4/background.jpeg") !important;
   }
 }
 /*定义横屏 css*/
 @media screen and (orientation: landscape) {
   body{
-    background-image: url("/static/theme-rc/background.jpeg") !important;
+    background-image: url("https://cdn.jsdelivr.net/gh/sakura-net/IMG@0.4/background.jpeg") !important;
   }
 }
 .header {
