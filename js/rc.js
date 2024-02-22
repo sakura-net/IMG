@@ -5,7 +5,7 @@ var map = L.map("map", {
   ],
 }).setView([0, 0], 2);
 var loc = new Array();
-L.tileLayer("https://map.asloop33.tk/services/google/tiles/{z}/{x}/{y}.jpg", {
+L.tileLayer("https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.jpg", {
   maxZoom: 4,
   zoomControl: false,
   minZoom: 2,
