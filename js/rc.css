@@ -1,0 +1,429 @@
+@font-face {
+  font-family: HarmonyOS;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(./HarmonyOS_Sans_SC_Medium.subset.woff2) format("woff2");
+}
+body {
+  font-family: HarmonyOS !important;
+  background-repeat: no-repeat !important;
+  background:fixed !important;
+  z-index: -1 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  background-position: top !important;
+  background-size: cover !important;
+}
+
+
+@media screen and (orientation: portrait) {
+  body {
+    background-image: url("/static/theme-rc/background.jpeg") !important;
+  }
+}
+/*定义横屏 css*/
+@media screen and (orientation: landscape) {
+  body{
+    background-image: url("/static/theme-rc/background.jpeg") !important;
+  }
+}
+.header {
+  color: white !important;
+  text-shadow: none !important;
+  font-family: HarmonyOS !important;
+}
+
+.container {
+  font-family: HarmonyOS !important;
+}
+
+#app {
+  font-family: HarmonyOS !important;
+}
+
+.ui.inverted.segment {
+  background: #e6eef4;
+}
+
+.ui.menu {
+  border: none !important;
+  background-color: transparent !important;
+  text-shadow: none !important;
+  color: white !important;
+}
+
+.ui.menu .active {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  color: white !important;
+}
+
+.ui.menu .item:before {
+  width: 0 !important;
+}
+
+.ui.menu:not(.secondary):not(.text):not(.tabular):not(.borderless)
+  > .container
+  > .item:not(.right):not(.borderless):first-child {
+  border-left: none !important;
+}
+
+.ui.menu.fixed {
+  position: static;
+}
+
+.nb-container {
+  padding-top: 40px !important;
+}
+
+.ui.menu {
+  margin-top: 20px !important;
+}
+
+#app .styled {
+  box-shadow: none;
+}
+
+#app .accordion {
+  text-shadow: none;
+  background: #e6eef4;
+  border-style: none;
+}
+
+#app .accordion .content .card {
+  border-radius: 20px;
+  background: #e6eef4;
+  box-shadow: none;
+}
+
+.ui.progress.fine .bar {
+  background-color: rgba(0, 226, 0, 0.4) !important;
+}
+
+.ui.progress > .bar {
+  background-color: #000 !important;
+}
+
+.ui.progress.warning .bar {
+  background-color: rgba(255, 255, 0, 0.45) !important;
+}
+
+.ui.progress.error .bar {
+  background-color: rgba(255, 0, 0, 0.45) !important;
+}
+
+.ui.progress.offline .bar {
+  background-color: #000 !important;
+}
+
+.ui.progress .bar {
+  min-width: 1.8em !important;
+  border-radius: 15px !important;
+  line-height: 1.65em !important;
+  text-shadow: none !important;
+}
+
+.ui.progress {
+  border-radius: 50px;
+  background: #d9e1e8a0;
+  box-shadow: none !important;
+}
+
+.service-status .good {
+  border-radius: 7px !important;
+  background: linear-gradient(145deg, #23c74a, #1ea73e) !important;
+  box-shadow: 0 0 0 #20b342 !important;
+}
+
+.service-status .danger {
+  border-radius: 7px !important;
+  background: linear-gradient(145deg, #c71e1e, #a71919) !important;
+  box-shadow: 0 0 0 #20b342 !important;
+}
+
+.service-status .warning {
+  border-radius: 7px !important;
+  background: linear-gradient(145deg, #ffa51a, #de8b16) !important;
+  box-shadow: 0 0 0 #ed9417 !important;
+}
+
+.service-status .table {
+  border: none !important;
+  border-radius: 7px;
+  background: #e6eef4;
+  box-shadow: -13px -13px 25px #d4dbe0, 13px 13px 25px #f8ffff;
+}
+
+.service-status .table td .button {
+  border: none !important;
+  border-radius: 7px;
+  background:transparent !important;
+  box-shadow: none;
+}
+
+.service-status table thead .center {
+  border: none !important;
+  background: #e6eef4 !important;
+}
+
+.service-status .table td {
+  border: none !important;
+}
+
+.ui.right.center.popup {
+  margin: -3px 0 0 0.914286em !important;
+  -webkit-transform-origin: left 50% !important;
+  transform-origin: left 50% !important;
+}
+
+.ui.bottom.left.popup {
+  margin-top: 3px !important;
+  margin-left: 1px !important;
+}
+
+.ui.top.left.popup {
+  margin-bottom: 10px !important;
+  margin-left: 0 !important;
+}
+
+.ui.top.right.popup {
+  margin-right: 0 !important;
+  margin-bottom: 8px !important;
+}
+
+.ui.left.center.popup {
+  margin: -3px 0.91428571em 0 0 !important;
+  -webkit-transform-origin: right 50% !important;
+  transform-origin: right 50% !important;
+}
+
+.ui.left.center.popup:before,
+.ui.right.center.popup:before {
+  border: 0 solid black !important;
+  background: white !important;
+}
+.ui.large.top.fixed.menu.nb-menu {
+  border: transparent;
+}
+.ui.top.popup:before {
+  border-color: transparent transparent transparent !important;
+}
+
+.ui.popup:before {
+  border-color: transparent transparent transparent !important;
+}
+
+.ui.bottom.left.popup:before {
+  border: 1px solid transparent !important;
+  border-color: black transparent transparent !important;
+  border-radius: 0 !important;
+  background: black !important;
+  -webkit-box-shadow: 0 0 0 0 black !important;
+  box-shadow: 0 0 0 0 black !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.ui.bottom.right.popup:before {
+  border: 1px solid transparent !important;
+  border-color: black transparent transparent !important;
+  border-radius: 0 !important;
+  background: black !important;
+  -webkit-box-shadow: 0 0 0 0 black !important;
+  box-shadow: 0 0 0 0 black !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.ui.top.left.popup:before {
+  border: 1px solid transparent !important;
+  border-color: black transparent transparent !important;
+  border-radius: 0 !important;
+  background: black !important;
+  -webkit-box-shadow: 0 0 0 0 black !important;
+  box-shadow: 0 0 0 0 black !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.ui.top.right.popup:before {
+  border: 1px solid transparent !important;
+  border-color: black transparent transparent !important;
+  border-radius: 0 !important;
+  background: black !important;
+  -webkit-box-shadow: 0 0 0 0 black !important;
+  box-shadow: 0 0 0 0 black !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.ui.left.center.popup:before {
+  border: 1px solid transparent !important;
+  border-color: black transparent transparent !important;
+  border-radius: 0 !important;
+  background: black !important;
+  -webkit-box-shadow: 0 0 0 0 black !important;
+  box-shadow: 0 0 0 0 black !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.status.cards .ui.content.popup {
+  min-width: 20rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 5px !important;
+  background-color: black !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  line-height: 2rem !important;
+}
+
+#app .accordion .title {
+  width: fit-content;
+  text-shadow: none;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  font-size: x-large !important;
+  font-family: HarmonyOS !important;
+}
+
+#app .accordion .content {
+  padding-top: 1.5em !important;
+}
+
+.description .wide {
+  margin-top: 1em;
+}
+
+.description .wide:nth-child(odd) {
+  text-shadow: none;
+  color: white !important;
+  font-weight: 500;
+}
+
+.description .wide:nth-child(8) {
+  text-shadow: none;
+  color: white !important;
+  font-weight: 500;
+}
+.ui.inverted.segment {
+  background: transparent;
+}
+.description .wide:nth-child(10) {
+  text-shadow: none;
+  color: white !important;
+  font-weight: 500;
+}
+
+.description .wide:nth-child(14) {
+  text-shadow: none;
+  color: white !important;
+  font-weight: 500;
+}
+
+.description .wide:nth-child(16) {
+  text-shadow: none;
+  color: white !important;
+  font-weight: 500;
+}
+
+.stackable .card .content .header {
+  text-align: center;
+  text-shadow: 2px 2px 3px #c4cacf, -2px -2px 3px #fff;
+  color: white !important;
+  font-weight: 500;
+}
+
+.stackable .card .content .header .popup {
+  text-align: left;
+  color: white !important;
+  text-shadow: 0 0 0 #333 !important;
+  font-weight: 100 !important;
+}
+
+.ui.menu .item > img:not(.ui) {
+  display: none;
+}
+
+#app .accordion .content .card:not(:first-child) {
+  margin-left: 10px;
+}
+
+.ui.menu .container .item {
+  text-shadow: none !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.right.menu .positive {
+  background: transparent !important;
+  color: white !important;
+  font-weight: 500;
+  font-family: HarmonyOS;
+}
+
+.service-status .table {
+  text-shadow: 2px 2px 3px #c4cacf, -2px -2px 3px #fff;
+  color: #787878 !important;
+  font-weight: 500;
+}
+
+.celled .aligned .thirteen .fine {
+  width: 95% !important;
+}
+
+.celled .aligned .thirteen .fine small {
+  color: #eee !important;
+  text-shadow: 0 0 #fff;
+}
+
+.service-status > h2 {
+  text-shadow: 2px 2px 3px #c4cacf, -2px -2px 3px #fff;
+}
+
+.ui.success.message {
+  border-radius: 11px !important;
+  background: #e6eef450 !important;
+  box-shadow: none !important;
+}
+.ui.success.message p {
+  color: white !important;
+}
+.ui.error.message {
+  border-radius: 11px !important;
+  background: #e6eef450 !important;
+  box-shadow: none !important;
+}
+.ui.error.message p {
+  color: white !important;
+}
+.ui.warning.message {
+  border-radius: 11px !important;
+  background: #e6eef450 !important;
+  box-shadow: none !important;
+}
+.ui.warning.message p {
+  color: white;
+}
+.header > img {
+  box-shadow: none !important;
+  border-radius: 50% !important;
+  /*width: 25px !important;*/
+}
+.ui.styled.fluid.accordion {
+  background-color: transparent !important;
+}
+.ui.grid {
+  text-shadow: none !important;
+  background-color: transparent !important;
+}
+#app {
+  background-color: transparent !important;
+}
+.ui.card {
+  background-color: rgba(25, 25, 25, 0.5) !important;
+  box-shadow: none !important;
+}
+.wide.column {
+  text-shadow: none !important;
+  color: white !important;
+}
