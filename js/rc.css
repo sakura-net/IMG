@@ -3,7 +3,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 500;
-  src: url(./HarmonyOS_Sans_SC_Medium.subset.woff2) format("woff2");
+  src: url(./HarmonyOS_Sans_Medium.ttf) format("ttf");
 }
 body {
   font-family: HarmonyOS !important;
