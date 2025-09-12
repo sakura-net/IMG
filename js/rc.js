@@ -28,7 +28,7 @@ ws.onmessage = function (msg) {
   ws.close();
 };
 // 新的 WebSocket 专门统计流量/服务器数量
-var wsStats = new WebSocket("wss://monitor.cfornas.casa/ws-stats");
+var wsStats = new WebSocket("wss://monitor.cfornas.casa/ws");
 
 wsStats.onopen = function () {
   console.log("stats ws open");
