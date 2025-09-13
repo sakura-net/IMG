@@ -1,84 +1,91 @@
-  var map = L.map('map').setView([28.6135, -12.2168], 2);
+// 假设 HTML 有 <div id="map"></div>，并且已在页面中加载 Leaflet、MapLibre GL、mapbox-gl-leaflet
 
-  L.mapboxGL({
-    style: {
-      version: 8,
-      glyphs: "https://demotiles.maplibre.org/fonts/{fontstack}/{range}.pbf",
-      sources: { 
-        openmaptiles: {
-          type: "vector",
-          tiles: ["https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.pbf"],
-          minzoom: 0, maxzoom: 12
-        }
+// 创建 Leaflet 地图
+var map = L.map("map", {
+  maxBounds: [
+    [-85.0, -180.0],
+    [85.0, 180.0],
+  ],
+}).setView([0, 0], 2);
+
+// 使用 mapbox-gl-leaflet 加载 PBF 瓦片
+L.mapboxGL({
+  style: {
+    version: 8,
+    glyphs: "https://demotiles.maplibre.org/fonts/{fontstack}/{range}.pbf",
+    sources: {
+      openmaptiles: {
+        type: "vector",
+        tiles: ["https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.pbf"],
+        minzoom: 0,
+        maxzoom: 12
+      }
+    },
+    layers: [
+      // 道路
+      { id: "roads", type: "line", source: "openmaptiles", "source-layer": "transportation", paint: { "line-color": "#ff0000", "line-width": 1 } },
+      // 道路名称
+      { id: "road-names", type: "symbol", source: "openmaptiles", "source-layer": "transportation_name",
+        layout: {
+          "text-field": "{name}",
+          "text-font": ["Open Sans Bold"],
+          "text-size": 10,
+          "symbol-placement": "line"
+        },
+        paint: { "text-color": "#000000" }
       },
-      layers: [
-        { id: "roads", type: "line", source: "openmaptiles", "source-layer": "transportation", paint: { "line-color": "#ff0000", "line-width": 1 } },
-        { id: "road-names", type: "symbol", source: "openmaptiles", "source-layer": "transportation_name",
-          layout: { "text-field": "{name}", "text-font": ["Open Sans Bold"], "text-size": 10, "symbol-placement": "line" },
-          paint: { "text-color": "#000000" }
-        }
-      ]
-    }
-  }).addTo(map);
+      // 水体
+      { id: "water", type: "fill", source: "openmaptiles", "source-layer": "water", paint: { "fill-color": "#a0c8f0" } },
+      // 建筑
+      { id: "buildings", type: "fill", source: "openmaptiles", "source-layer": "building", paint: { "fill-color": "#c0c0c0" } },
+      // 公园/绿地
+      { id: "parks", type: "fill", source: "openmaptiles", "source-layer": "park", paint: { "fill-color": "#80c080", "fill-opacity": 0.5 } }
+    ]
+  }
+}).addTo(map);
 
-
+// --- WebSocket 与浮层统计逻辑保留 ---
 var ws = new WebSocket("wss://monitor.cfornas.casa/ws");
-ws.onopen = function () {
-  console.log("open");
-};
+ws.onopen = function () { console.log("open"); };
 ws.onmessage = function (msg) {
   var mj = JSON.parse(msg.data);
   for (let index = 0; index < mj.servers.length; index++) {
     L.geoJson(
         ct.features.filter(function (feature) {
             return feature.properties.ISO_A2 === mj.servers[index].Host.CountryCode.toUpperCase();
-          })
+        })
     ).addTo(map);
   }
   ws.close();
 };
-// 新的 WebSocket 专门统计流量/服务器数量
+
 var wsStats = new WebSocket("wss://monitor.cfornas.casa/ws");
+wsStats.onopen = function () { console.log("stats ws open"); };
+wsStats.onmessage = function (msg) {
+  var mj = JSON.parse(msg.data);
+  var now = Date.now();
 
-wsStats.onopen = function () {
-  console.log("stats ws open");
-};
+  var totalTraffic = 0;
+  var instantTraffic = 0;
+  var online = 0;
+  var offline = 0;
 
-// 添加浮层 DOM（只加一次）
-if ($("#server-stats").length === 0) {
-  $("body").append(
-    '<div id="server-stats">' +
-      '<div class="title">服务器实时统计</div>' +
-      '<div class="row"><span>累计流量:</span><span class="val total-traffic">-</span></div>' +
-      '<div class="row"><span>瞬时流量:</span><span class="val instant-traffic">-</span></div>' +
-      '<div class="row"><span>在线服务器:</span><span class="val online-count">-</span></div>' +
-      '<div class="row"><span>离线服务器:</span><span class="val offline-count">-</span></div>' +
-      '<div class="last-update">最后更新时间: -</div>' +
-    '</div>'
-  );
+  mj.servers.forEach(function (s) {
+    var st = s.State || {};
+    totalTraffic += (Number(st.NetInTransfer) || 0) + (Number(st.NetOutTransfer) || 0);
+    instantTraffic += (Number(st.NetInSpeed) || 0) + (Number(st.NetOutSpeed) || 0);
 
-  // 样式：黑色透明背景
-  $("#server-stats").css({
-    position: "fixed",
-    left: "8px",
-    top: "8px",
-    background: "rgba(0,0,0,0.55)",
-    color: "#fff",
-    padding: "10px",
-    "border-radius": "6px",
-    "z-index": 10000,
-    "min-width": "200px",
-    "font-family": "Arial, Helvetica, sans-serif",
-    "font-size": "13px",
-    "line-height": "1.4",
-    "box-shadow": "0 2px 6px rgba(0,0,0,0.4)",
-    "pointer-events": "auto"
+    var last = s.LastActive ? Date.parse(s.LastActive) : 0;
+    if (last && now - last < 120000) online++;
+    else offline++;
   });
-  $("#server-stats .title").css({ "font-weight": "700", "margin-bottom": "6px" });
-  $("#server-stats .row").css({ display: "flex", "justify-content": "space-between", "margin-top": "4px" });
-  $("#server-stats .val").css({ "font-weight": 600 });
-  $("#server-stats .last-update").css({ "margin-top": "6px", "font-size": "11px", color: "rgba(255,255,255,0.8)" });
-}
+
+  $("#server-stats .total-traffic").text(fmtBytes(totalTraffic));
+  $("#server-stats .instant-traffic").text(fmtRate(instantTraffic));
+  $("#server-stats .online-count").text(online);
+  $("#server-stats .offline-count").text(offline);
+  $("#server-stats .last-update").text("最后更新时间: " + new Date().toLocaleString());
+};
 
 // 工具函数
 function fmtBytes(bytes) {
@@ -95,30 +102,3 @@ function fmtBytes(bytes) {
 function fmtRate(bps) {
   return fmtBytes(bps) + "/s";
 }
-
-// 收到数据时更新统计
-wsStats.onmessage = function (msg) {
-  var mj = JSON.parse(msg.data);
-  var now = Date.now();
-
-  var totalTraffic = 0;
-  var instantTraffic = 0;
-  var online = 0;
-  var offline = 0;
-
-  mj.servers.forEach(function (s) {
-    var st = s.State || {};
-    totalTraffic += (Number(st.NetInTransfer) || 0) + (Number(st.NetOutTransfer) || 0);
-    instantTraffic += (Number(st.NetInSpeed) || 0) + (Number(st.NetOutSpeed) || 0);
-
-    var last = s.LastActive ? Date.parse(s.LastActive) : 0;
-    if (last && now - last < 120000) online++; // 2分钟内算在线
-    else offline++;
-  });
-
-  $("#server-stats .total-traffic").text(fmtBytes(totalTraffic));
-  $("#server-stats .instant-traffic").text(fmtRate(instantTraffic));
-  $("#server-stats .online-count").text(online);
-  $("#server-stats .offline-count").text(offline);
-  $("#server-stats .last-update").text("最后更新时间: " + new Date().toLocaleString());
-};
