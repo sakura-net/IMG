@@ -13,29 +13,19 @@ var map = new maplibregl.Map({
       }
     },
     layers: [
-      // 道路
-      { id: "roads", type: "line", source: "openmaptiles", "source-layer": "transportation", paint: { "line-color": "#ff0000", "line-width": 1 } },
-      // 道路名称
-      { id: "road-names", type: "symbol", source: "openmaptiles", "source-layer": "transportation_name",
-        layout: {
-          "text-field": "{name}",
-          "text-font": ["Open Sans Bold"],
-          "text-size": 10,
-          "symbol-placement": "line"
-        },
-        paint: { "text-color": "#000000" }
-      },
+
       // 水体
-      { id: "water", type: "fill", source: "openmaptiles", "source-layer": "water", paint: { "fill-color": "#a0c8f0" } },
-      // 建筑
-      { id: "buildings", type: "fill", source: "openmaptiles", "source-layer": "building", paint: { "fill-color": "#c0c0c0" } },
-      // 公园 / 绿地
-      { id: "parks", type: "fill", source: "openmaptiles", "source-layer": "park", paint: { "fill-color": "#80c080", "fill-opacity": 0.5 } }
+      { id: "water", type: "fill", source: "openmaptiles", "source-layer": "water", paint: { "fill-color": "#a0c8f0" } }
+
     ]
   },
   center: [0, 0],
   zoom: 2,
-  maxBounds: [[-85, -180], [85, 180]]
+  // 修正 maxBounds 顺序：MapLibre GL 使用 [lng, lat]
+  maxBounds: [
+    [-180, -85], // southwest
+    [180, 85]    // northeast
+  ]
 });
 
 // --- WebSocket 加载 GeoJSON ---
