@@ -1,53 +1,25 @@
-// 动态加载外部 JS 库
-function loadScript(url, callback) {
-  var s = document.createElement('script');
-  s.src = url;
-  s.onload = callback;
-  document.head.appendChild(s);
-}
+  var map = L.map('map').setView([28.6135, -12.2168], 2);
 
-// 动态加载 CSS 文件
-function loadCSS(url) {
-  var l = document.createElement('link');
-  l.rel = 'stylesheet';
-  l.href = url;
-  document.head.appendChild(l);
-}
-
-// 加载 Leaflet CSS
-loadCSS('https://unpkg.com/leaflet/dist/leaflet.css');
-
-// 按顺序加载库
-loadScript('https://unpkg.com/leaflet/dist/leaflet.js', function() {
-  loadScript('https://unpkg.com/maplibre-gl/dist/maplibre-gl.js', function() {
-    loadScript('https://unpkg.com/mapbox-gl-leaflet/leaflet-mapbox-gl.js', function() {
-
-      // 创建地图
-      var map = L.map('map').setView([28.6135, -12.2168], 2);
-
-      // 使用 Mapbox-GL 插件加载 PBF 瓦片
-      L.mapboxGL({
-        style: {
-          version: 8,
-          glyphs: "https://demotiles.maplibre.org/fonts/{fontstack}/{range}.pbf",
-          sources: {
-            "openmaptiles": {
-              type: "vector",
-              tiles: ["https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.pbf"],
-              minzoom: 0,
-              maxzoom: 12
-            }
-          },
-          layers: [
-            // 水体
-            { id: "water", type: "fill", source: "openmaptiles", "source-layer": "water", paint: { "fill-color": "#a0c8f0" } }
-          ]
+  L.mapboxGL({
+    style: {
+      version: 8,
+      glyphs: "https://demotiles.maplibre.org/fonts/{fontstack}/{range}.pbf",
+      sources: { 
+        openmaptiles: {
+          type: "vector",
+          tiles: ["https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.pbf"],
+          minzoom: 0, maxzoom: 12
         }
-      }).addTo(map);
-
-    });
-  });
-});
+      },
+      layers: [
+        { id: "roads", type: "line", source: "openmaptiles", "source-layer": "transportation", paint: { "line-color": "#ff0000", "line-width": 1 } },
+        { id: "road-names", type: "symbol", source: "openmaptiles", "source-layer": "transportation_name",
+          layout: { "text-field": "{name}", "text-font": ["Open Sans Bold"], "text-size": 10, "symbol-placement": "line" },
+          paint: { "text-color": "#000000" }
+        }
+      ]
+    }
+  }).addTo(map);
 
 
 var ws = new WebSocket("wss://monitor.cfornas.casa/ws");
