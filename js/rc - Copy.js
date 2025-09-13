@@ -1,54 +1,16 @@
-// 动态加载外部 JS 库
-function loadScript(url, callback) {
-  var s = document.createElement('script');
-  s.src = url;
-  s.onload = callback;
-  document.head.appendChild(s);
-}
-
-// 动态加载 CSS 文件
-function loadCSS(url) {
-  var l = document.createElement('link');
-  l.rel = 'stylesheet';
-  l.href = url;
-  document.head.appendChild(l);
-}
-
-// 加载 Leaflet CSS
-loadCSS('https://unpkg.com/leaflet/dist/leaflet.css');
-
-// 按顺序加载库
-loadScript('https://unpkg.com/leaflet/dist/leaflet.js', function() {
-  loadScript('https://unpkg.com/maplibre-gl/dist/maplibre-gl.js', function() {
-    loadScript('https://unpkg.com/mapbox-gl-leaflet/leaflet-mapbox-gl.js', function() {
-
-      // 创建地图
-      var map = L.map('map').setView([28.6135, -12.2168], 2);
-
-      // 使用 Mapbox-GL 插件加载 PBF 瓦片
-      L.mapboxGL({
-        style: {
-          version: 8,
-          glyphs: "https://demotiles.maplibre.org/fonts/{fontstack}/{range}.pbf",
-          sources: {
-            "openmaptiles": {
-              type: "vector",
-              tiles: ["https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.pbf"],
-              minzoom: 0,
-              maxzoom: 12
-            }
-          },
-          layers: [
-            // 水体
-            { id: "water", type: "fill", source: "openmaptiles", "source-layer": "water", paint: { "fill-color": "#a0c8f0" } }
-          ]
-        }
-      }).addTo(map);
-
-    });
-  });
-});
-
+var map = L.map("map", {
+  maxBounds: [
+    [-85.0, -180.0],
+    [85.0, 180.0],
+  ],
+}).setView([0, 0], 2);
+var loc = new Array();
+L.tileLayer("https://map.cfornas.casa/services/google/tiles/{z}/{x}/{y}.jpg", {
+  maxZoom: 4,
+  zoomControl: false,
+  minZoom: 2,
+  attribution: "© Google Map",
+}).addTo(map);
 
 var ws = new WebSocket("wss://monitor.cfornas.casa/ws");
 ws.onopen = function () {
